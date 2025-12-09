@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getDb } from "@/lib/db";
 
-const ALLOWED_ROLES = ["admin", "superadmin"];
+const ALLOWED_ROLES = ["admin", "guru"];
 
 export async function POST(request) {
   try {
@@ -25,10 +25,20 @@ export async function POST(request) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const db = getDb();
 
-    await db.execute(
-      "INSERT INTO admin (nama, username, password, role) VALUES (?, ?, ?, ?)",
-      [nama, username, hashedPassword, role]
-    );
+    // Jika role adalah guru, insert ke table guru
+    // Jika role adalah admin, insert ke table admin
+    if (role === "guru") {
+      await db.execute(
+        "INSERT INTO guru (nama, username, password) VALUES (?, ?, ?)",
+        [nama, username, hashedPassword]
+      );
+    } else {
+      // Selalu set role sebagai 'admin'
+      await db.execute(
+        "INSERT INTO admin (nama, username, password, role) VALUES (?, ?, ?, 'admin')",
+        [nama, username, hashedPassword]
+      );
+    }
 
     return NextResponse.json({ message: "Registrasi berhasil." });
   } catch (error) {

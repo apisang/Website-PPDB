@@ -8,11 +8,11 @@ function unauthorized() {
   return NextResponse.json({ message: "Tidak diizinkan." }, { status: 403 });
 }
 
-async function ensureSuperadmin() {
+async function ensureAdmin() {
   const token = await getCookieValue("ppdb_token");
   const payload = verifyToken(token);
 
-  if (!payload || payload.role !== "superadmin") {
+  if (!payload || payload.role !== "admin") {
     return { error: unauthorized() };
   }
 
@@ -22,10 +22,10 @@ async function ensureSuperadmin() {
 export async function PATCH(request, { params }) {
   const { id } = await params;
   if (!id) {
-    return NextResponse.json({ message: "ID guru tidak valid." }, { status: 400 });
+    return NextResponse.json({ message: "ID tidak valid." }, { status: 400 });
   }
 
-  const auth = await ensureSuperadmin();
+  const auth = await ensureAdmin();
   if (auth.error) return auth.error;
 
   let body;
@@ -34,6 +34,8 @@ export async function PATCH(request, { params }) {
   } catch {
     return NextResponse.json({ message: "Payload tidak valid." }, { status: 400 });
   }
+
+  const tableSource = body?.tableSource || "guru"; // Default ke guru jika tidak ada
 
   const updates = [];
   const values = [];
@@ -60,13 +62,24 @@ export async function PATCH(request, { params }) {
 
   try {
     const db = getDb();
-    await db.execute(`UPDATE admin SET ${updates.join(", ")} WHERE id = ?`, [
-      ...values,
-      id,
-    ]);
-    return NextResponse.json({ message: "Data guru berhasil diperbarui." });
+    const tableName = tableSource === "admin" ? "admin" : "guru";
+    
+    // Jika update admin, pastikan role tetap 'admin'
+    if (tableSource === "admin") {
+      await db.execute(`UPDATE admin SET ${updates.join(", ")}, role = 'admin' WHERE id = ?`, [
+        ...values,
+        id,
+      ]);
+    } else {
+      await db.execute(`UPDATE guru SET ${updates.join(", ")} WHERE id = ?`, [
+        ...values,
+        id,
+      ]);
+    }
+    
+    return NextResponse.json({ message: "Data berhasil diperbarui." });
   } catch (error) {
-    console.error("Update guru error:", error);
+    console.error("Update error:", error);
     if (error?.code === "ER_DUP_ENTRY") {
       return NextResponse.json(
         { message: "Username telah digunakan." },
@@ -74,29 +87,36 @@ export async function PATCH(request, { params }) {
       );
     }
     return NextResponse.json(
-      { message: "Terjadi kesalahan saat memperbarui data guru." },
+      { message: "Terjadi kesalahan saat memperbarui data." },
       { status: 500 }
     );
   }
 }
 
-export async function DELETE(_request, { params }) {
+export async function DELETE(request, { params }) {
   const { id } = await params;
   if (!id) {
-    return NextResponse.json({ message: "ID guru tidak valid." }, { status: 400 });
+    return NextResponse.json({ message: "ID tidak valid." }, { status: 400 });
   }
 
-  const auth = await ensureSuperadmin();
+  const auth = await ensureAdmin();
   if (auth.error) return auth.error;
 
   try {
+    // Get table source from query parameter
+    const { searchParams } = new URL(request.url);
+    const tableSource = searchParams.get("tableSource") || "guru";
+
     const db = getDb();
-    await db.execute("DELETE FROM admin WHERE id = ? AND role = 'admin'", [id]);
-    return NextResponse.json({ message: "Guru berhasil dihapus." });
+    const tableName = tableSource === "admin" ? "admin" : "guru";
+    
+    await db.execute(`DELETE FROM ${tableName} WHERE id = ?`, [id]);
+    
+    return NextResponse.json({ message: "Data berhasil dihapus." });
   } catch (error) {
-    console.error("Delete guru error:", error);
+    console.error("Delete error:", error);
     return NextResponse.json(
-      { message: "Terjadi kesalahan saat menghapus guru." },
+      { message: "Terjadi kesalahan saat menghapus data." },
       { status: 500 }
     );
   }

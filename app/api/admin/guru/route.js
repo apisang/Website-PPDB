@@ -8,7 +8,7 @@ export async function POST(request) {
   const token = await getCookieValue("ppdb_token");
   const payload = verifyToken(token);
 
-  if (!payload || payload.role !== "superadmin") {
+  if (!payload || payload.role !== "admin") {
     return NextResponse.json({ message: "Tidak diizinkan." }, { status: 403 });
   }
 
@@ -22,15 +22,23 @@ export async function POST(request) {
       );
     }
 
-    const normalizedRole = role === "superadmin" ? "superadmin" : "admin";
-
     const db = getDb();
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await db.execute(
-      "INSERT INTO admin (nama, username, password, role) VALUES (?, ?, ?, ?)",
-      [nama, username, hashedPassword, normalizedRole]
-    );
+    // Jika role adalah guru, insert ke table guru
+    // Jika role adalah admin, insert ke table admin
+    if (role === "guru") {
+      await db.execute(
+        "INSERT INTO guru (nama, username, password) VALUES (?, ?, ?)",
+        [nama, username, hashedPassword]
+      );
+    } else {
+      // Selalu set role sebagai 'admin'
+      await db.execute(
+        "INSERT INTO admin (nama, username, password, role) VALUES (?, ?, ?, 'admin')",
+        [nama, username, hashedPassword]
+      );
+    }
 
     return NextResponse.json({ message: "Akun berhasil ditambahkan." });
   } catch (error) {

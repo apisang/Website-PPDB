@@ -1,67 +1,45 @@
-"use client";
+  "use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "PPDB", href: "/ppdb" },
-  {
-    name: "Profile",
-    children: [
-      { name: "Sejarah Sekolah", href: "/profil/sejarah-sekolah" },
-      { name: "Struktur Organisasi", href: "/profil/struktur-organisasi" },
-      { name: "Guru & Tenaga Kependidikan", href: "/profil/guru-tenaga-pendidikan" },
-    ],
-  },
-  {
-    name: "Sarana-Prasarana",
-    children: [
-      { name: "Masjid Al-Kautsar", href: "/sarana-prasarana/masjid-al-kautsar" },
-      { name: "Ruang Bimbingan Konseling", href: "/sarana-prasarana/ruang-bimbingan-konseling" },
-      { name: "Pos Keamanan", href: "/sarana-prasarana/pos-keamanan" },
-      { name: "Kantin", href: "/sarana-prasarana/kantin" },
-    ],
-  },
-  { name: "Data Alumni", href: "/data-alumni" },
-];
+import MainNavbar from "@/components/layout/MainNavbar";
 
 const majors = [
   {
     title: "Teknik Elektro",
     code: "TE",
-    image: "https://dummyimage.com/140x140/f3f7ff/1b3c69.png&text=TE",
+    image: "TE.png",
     description: "Mengembangkan keahlian di bidang kelistrikan dan elektronika modern"
   },
   {
     title: "Teknik Jaringan Komputer",
     code: "TKJ",
-    image: "https://dummyimage.com/140x140/eff5ff/1b3c69.png&text=TKJ",
+    image: "tkj.png",
     description: "Membangun dan mengelola infrastruktur jaringan komputer profesional"
   },
   {
     title: "Animasi",
     code: "ANM",
-    image: "https://dummyimage.com/140x140/f2f8ff/1b3c69.png&text=ANM",
+    image: "anim.png",
     description: "Menciptakan karya animasi 2D dan 3D yang kreatif dan inovatif"
   },
   {
     title: "Rekayasa Perangkat Lunak",
     code: "RPL",
-    image: "https://dummyimage.com/140x140/e8f2ff/1b3c69.png&text=RPL",
+    image: "rpl.png",
     description: "Mengembangkan aplikasi dan sistem perangkat lunak berkualitas tinggi"
   },
   {
     title: "Broadcasting & Perfilman",
     code: "BRF",
-    image: "https://dummyimage.com/140x140/f0f7ff/1b3c69.png&text=BRF",
+    image: "/brf.png",
     description: "Menguasai produksi siaran, film, dan konten multimedia profesional"
   },
   {
     title: "Desain Komunikasi Visual",
     code: "DKV",
-    image: "https://dummyimage.com/140x140/eef6ff/1b3c69.png&text=DKV",
+    image: "dkv.png",
     description: "Mendesain visual komunikasi yang efektif dan menarik perhatian"
   },
 ];
@@ -111,64 +89,196 @@ const achievements = [
 
 const news = [
   {
-    title: "Pembukaan PPDB 2025",
-    description: "Pendaftaran resmi dibuka mulai 10 Januari 2025. Segera daftar untuk mendapatkan jalur beasiswa khusus.",
-    date: "10 Jan 2025",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=400&auto=format&fit=crop",
+    title: "Maulid Nabi Muhammad SAW: Saatnya Meneladani Akhlak Mulia",
+    description: "SMK Taruna Bhakti menggelar peringatan Maulid Nabi Muhammad SAW dengan tema meneladani akhlak mulia sebagai bekal kehidupan.",
+    date: "Kamis, 9 Oktober 2025",
+    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop",
+    category: "Berita Terbaru"
   },
   {
-    title: "Open House Kampus",
-    description: "Kunjungi kampus kami dan jelajahi fasilitas penunjang pembelajaran pada 24 Februari 2025.",
-    date: "24 Feb 2025",
-    image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=400&auto=format&fit=crop",
+    title: "Khidmat Peringatan Hari Kesaktian Pancasila di SMK Taruna Bhakti",
+    description: "Siswa-siswi SMK Taruna Bhakti mengikuti upacara peringatan Hari Kesaktian Pancasila dengan khidmat dan penuh semangat kebangsaan.",
+    date: "Rabu, 1 Oktober 2025",
+    image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=600&auto=format&fit=crop",
+    category: "Kegiatan Sekolah"
   },
   {
-    title: "Webinar Karier Digital",
-    description: "Ikuti webinar bersama alumni yang sukses di industri teknologi kreatif dan digital.",
-    date: "2 Mar 2025",
-    image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=400&auto=format&fit=crop",
+    title: "Kilau Medali Starbhak di POPDA XIV Jabar 2025",
+    description: "Siswa SMK Taruna Bhakti berhasil meraih medali emas dalam Pekan Olahraga Pelajar Daerah (POPDA) XIV Jawa Barat 2025.",
+    date: "Kamis, 25 September 2025",
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=600&auto=format&fit=crop",
+    category: "Prestasi"
   },
   {
-    title: "Workshop Teknologi AI",
-    description: "Pelatihan intensif tentang kecerdasan buatan dan implementasinya dalam dunia kerja.",
-    date: "15 Mar 2025",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=400&auto=format&fit=crop",
+    title: "SMK Taruna Bhakti Goes National: Raih 1st Best Speaker NSDC 2025",
+    description: "Siswa SMK Taruna Bhakti berhasil meraih juara 1 Best Speaker dalam National Student Debate Championship (NSDC) 2025 Jawa Barat.",
+    date: "Rabu, 24 September 2025",
+    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=600&auto=format&fit=crop",
+    category: "Prestasi"
   },
   {
-    title: "Kompetisi Robotik Nasional",
-    description: "Tim RPL meraih juara 2 dalam ajang kompetisi robotik tingkat nasional.",
-    date: "20 Mar 2025",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=400&auto=format&fit=crop",
+    title: "Workshop Teknologi AI untuk Siswa",
+    description: "SMK Taruna Bhakti mengadakan workshop teknologi kecerdasan buatan untuk meningkatkan kompetensi siswa di era digital.",
+    date: "Selasa, 15 September 2025",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop",
+    category: "Kegiatan Sekolah"
   },
   {
-    title: "Kunjungan Industri",
-    description: "Kunjungan ke perusahaan teknologi terkemuka untuk memperluas wawasan siswa.",
-    date: "25 Mar 2025",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=400&auto=format&fit=crop",
+    title: "Pelatihan Kewirausahaan untuk Siswa RPL",
+    description: "Program pelatihan kewirausahaan intensif bagi siswa Rekayasa Perangkat Lunak untuk membekali keterampilan bisnis di era digital.",
+    date: "Senin, 8 September 2025",
+    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=600&auto=format&fit=crop",
+    category: "Kegiatan Sekolah"
+  },
+  {
+    title: "Kunjungan Industri ke PT. Telkom Indonesia",
+    description: "Siswa jurusan Teknik Jaringan Komputer melakukan kunjungan industri untuk memahami praktik dunia kerja di perusahaan telekomunikasi.",
+    date: "Jumat, 5 September 2025",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop",
+    category: "Kegiatan Sekolah"
+  },
+  {
+    title: "Pameran Karya Siswa Teknik Elektro",
+    description: "Pameran inovasi dan karya siswa jurusan Teknik Elektro menampilkan berbagai proyek elektronika canggih dan aplikatif.",
+    date: "Kamis, 28 Agustus 2025",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop",
+    category: "Prestasi"
+  },
+  {
+    title: "Lomba Desain Grafis Tingkat Kota",
+    description: "Siswa Desain Komunikasi Visual berhasil meraih juara 2 dalam lomba desain grafis tingkat kota Depok dengan karya yang kreatif.",
+    date: "Rabu, 20 Agustus 2025",
+    image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?q=80&w=600&auto=format&fit=crop",
+    category: "Prestasi"
+  },
+  {
+    title: "Seminar Karir: Persiapan Masuk Dunia Kerja",
+    description: "Seminar karir dengan menghadirkan alumni sukses dan praktisi industri untuk membekali siswa persiapan memasuki dunia kerja.",
+    date: "Selasa, 12 Agustus 2025",
+    image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=600&auto=format&fit=crop",
+    category: "Kegiatan Sekolah"
+  },
+  {
+    title: "Workshop Animasi 3D untuk Siswa DKV",
+    description: "Pelatihan intensif software animasi 3D menggunakan Blender untuk siswa Desain Komunikasi Visual dalam rangka meningkatkan kompetensi.",
+    date: "Senin, 5 Agustus 2025",
+    image: "https://images.unsplash.com/photo-1609921141835-710b7fa6e438?q=80&w=600&auto=format&fit=crop",
+    category: "Kegiatan Sekolah"
+  },
+  {
+    title: "Kompetisi Robotik Tingkat Provinsi",
+    description: "Tim robotik SMK Taruna Bhakti berhasil meraih medali perunggu dalam kompetisi robotik tingkat provinsi Jawa Barat.",
+    date: "Minggu, 28 Juli 2025",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=600&auto=format&fit=crop",
+    category: "Prestasi"
+  },
+  {
+    title: "Pelatihan Broadcasting untuk Siswa BRF",
+    description: "Program pelatihan produksi siaran dan perfilman intensif bagi siswa Broadcasting & Perfilman untuk persiapan dunia entertainment.",
+    date: "Jumat, 25 Juli 2025",
+    image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=600&auto=format&fit=crop",
+    category: "Kegiatan Sekolah"
+  },
+  {
+    title: "Juara 3 Lomba Karya Tulis Ilmiah Nasional",
+    description: "Siswa SMK Taruna Bhakti meraih juara 3 dalam lomba karya tulis ilmiah nasional dengan tema inovasi teknologi masa depan.",
+    date: "Rabu, 22 Juli 2025",
+    image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=600&auto=format&fit=crop",
+    category: "Prestasi"
+  },
+  {
+    title: "Kunjungan Study Banding ke SMKN 1 Jakarta",
+    description: "Kunjungan study banding ke sekolah unggulan untuk belajar praktik terbaik dalam pengelolaan pendidikan vokasi.",
+    date: "Selasa, 15 Juli 2025",
+    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=600&auto=format&fit=crop",
+    category: "Kegiatan Sekolah"
+  },
+  {
+    title: "Workshop IoT untuk Siswa Teknik Elektro",
+    description: "Pelatihan Internet of Things (IoT) dengan hands-on project untuk siswa Teknik Elektro dalam rangka persiapan industri 4.0.",
+    date: "Senin, 8 Juli 2025",
+    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=600&auto=format&fit=crop",
+    category: "Kegiatan Sekolah"
+  },
+  {
+    title: "Peringatan Hari Kemerdekaan RI ke-80",
+    description: "Upacara bendera dan berbagai kegiatan patriotik untuk memperingati hari kemerdekaan Republik Indonesia yang ke-80.",
+    date: "Jumat, 17 Agustus 2025",
+    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=600&auto=format&fit=crop",
+    category: "Kegiatan Sekolah"
+  },
+  {
+    title: "Lomba Pidato Bahasa Inggris Tingkat Kota",
+    description: "Siswa SMK Taruna Bhakti meraih juara harapan dalam lomba pidato bahasa Inggris tingkat kota Depok.",
+    date: "Kamis, 10 Juli 2025",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
+    category: "Prestasi"
+  },
+  {
+    title: "Pelatihan Digital Marketing untuk Siswa RPL",
+    description: "Workshop digital marketing dan e-commerce untuk siswa Rekayasa Perangkat Lunak dalam rangka membekali keterampilan bisnis online.",
+    date: "Rabu, 2 Juli 2025",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop",
+    category: "Kegiatan Sekolah"
+  },
+  {
+    title: "Turnamen Basket Antar Sekolah",
+    description: "Tim basket SMK Taruna Bhakti berhasil menjadi juara 2 dalam turnamen basket antar sekolah tingkat kota Depok.",
+    date: "Minggu, 29 Juni 2025",
+    image: "https://images.unsplash.com/photo-1574623452334-1e0ac2b3ccb4?q=80&w=600&auto=format&fit=crop",
+    category: "Prestasi"
+  },
+  {
+    title: "Workshop Cybersecurity untuk Siswa TKJ",
+    description: "Pelatihan keamanan siber dan ethical hacking bagi siswa Teknik Jaringan Komputer untuk menghadapi tantangan keamanan digital.",
+    date: "Jumat, 27 Juni 2025",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=600&auto=format&fit=crop",
+    category: "Kegiatan Sekolah"
+  },
+  {
+    title: "Pameran Inovasi Siswa Animasi",
+    description: "Pameran karya animasi siswa yang menampilkan film pendek, motion graphics, dan karakter animasi yang kreatif dan inovatif.",
+    date: "Kamis, 19 Juni 2025",
+    image: "https://images.unsplash.com/photo-1609921141835-710b7fa6e438?q=80&w=600&auto=format&fit=crop",
+    category: "Prestasi"
+  },
+  {
+    title: "Kunjungan ke Museum Telekomunikasi",
+    description: "Kunjungan edukasi ke museum telekomunikasi untuk mempelajari sejarah dan perkembangan teknologi komunikasi di Indonesia.",
+    date: "Selasa, 17 Juni 2025",
+    image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=600&auto=format&fit=crop",
+    category: "Kegiatan Sekolah"
+  },
+  {
+    title: "Lomba Fotografi Tingkat Provinsi",
+    description: "Siswa Desain Komunikasi Visual meraih juara 1 dalam lomba fotografi tingkat provinsi dengan tema 'Kearifan Lokal Nusantara'.",
+    date: "Minggu, 15 Juni 2025",
+    image: "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=600&auto=format&fit=crop",
+    category: "Prestasi"
   },
 ];
 
+const editorial = {
+  name: "Dr. Lely Ersastri, M. Pd",
+  position: "Kepala Sekolah",
+  image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop",
+  message: "Selamat datang di SMK Taruna Bhakti, sekolah yang mengedepankan pendidikan karakter dan kompetensi untuk membentuk generasi unggul, kreatif, dan berdaya saing."
+};
+
+const articleLinks = [
+  "KEMBALI KE RUMAH: Menyongsong Harapan Baru di SMK Taruna Bhakti",
+  "CYBER BULLYING: Luka yang tak terlihat, dampak nyata",
+  "SEMANGAT BARU, HARAPAN BARU: SMK Taruna Bhakti melangkah maju",
+  "ESTAFET KEPEMIMPINAN: Menapaki babak Baru SMK Taruna Bhakti",
+  "DEEP LEARNING: Menuju Pendidikan yang Lebih Bermakna"
+];
+
 const HERO_IMAGE = "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1600&auto=format&fit=crop";
-const LOGO_IMAGE = "https://dummyimage.com/220x220/eff6ff/1b3c69.png&text=SMK+Taruna+Bhakti";
+const LOGO_IMAGE = "/logo.png";
 
 export default function Home() {
-  const [currentNewsSlide, setCurrentNewsSlide] = useState(0);
   const [currentMajorSlide, setCurrentMajorSlide] = useState(0);
   const [currentAchievementSlide, setCurrentAchievementSlide] = useState(0);
-  const [currentDateTime, setCurrentDateTime] = useState({
-    day: '',
-    date: '',
-    month: '',
-    year: '',
-    time: ''
-  });
-
-  useEffect(() => {
-    const newsTimer = setInterval(() => {
-      setCurrentNewsSlide((prev) => (prev + 1) % news.length);
-    }, 5000);
-    return () => clearInterval(newsTimer);
-  }, []);
 
   useEffect(() => {
     const majorTimer = setInterval(() => {
@@ -183,34 +293,6 @@ export default function Home() {
     }, 4500);
     return () => clearInterval(achievementTimer);
   }, []);
-
-  useEffect(() => {
-    const updateDateTime = () => {
-      const now = new Date();
-      const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-      
-      setCurrentDateTime({
-        day: days[now.getDay()],
-        date: now.getDate().toString().padStart(2, '0'),
-        month: months[now.getMonth()],
-        year: now.getFullYear().toString(),
-        time: now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
-      });
-    };
-
-    updateDateTime();
-    const timer = setInterval(updateDateTime, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const nextNewsSlide = () => {
-    setCurrentNewsSlide((prev) => (prev + 1) % news.length);
-  };
-
-  const prevNewsSlide = () => {
-    setCurrentNewsSlide((prev) => (prev - 1 + news.length) % news.length);
-  };
 
   const nextMajorSlide = () => {
     setCurrentMajorSlide((prev) => (prev + 1) % majors.length);
@@ -229,123 +311,14 @@ export default function Home() {
   };
 
   return (
-    <div id="home" className="min-h-screen bg-gradient-to-b from-[#1b3c69] via-[#2d5a8f] to-[#d9eeff] text-[#16365f] relative">
-      {/* Header */}
-      <header className="relative sticky top-0 z-50 border-b border-white/50 bg-gradient-to-r from-[#d9eeff] via-[#eaf4ff] to-[#d6e7ff] shadow-sm">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-8 left-16 h-24 w-24 rounded-full bg-gradient-to-br from-[#d6e7ff] to-[#adc6f4] blur-2xl opacity-40" />
-          <div className="absolute -bottom-10 right-24 h-20 w-20 rounded-full bg-gradient-to-br from-[#4a7bb8]/30 to-[#2d5a8f]/30 blur-xl" />
-        </div>
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
-          <Link href="/" className="flex items-center gap-4 group relative z-10">
-            <div className="flex h-14 w-14 lg:h-16 lg:w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#1b3c69] to-[#0f305c] text-white shadow-lg transition-transform group-hover:scale-110">
-              <svg className="h-7 w-7 lg:h-8 lg:w-8" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
-            </div>
-            <div className="hidden md:flex items-center gap-2">
-              <span className="h-3 w-3 rounded-full bg-gradient-to-br from-[#1b3c69] to-[#0f305c] shadow" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#adc6f4]" />
-              <span className="h-3 w-3 rounded-full bg-gradient-to-br from-[#0f305c] to-[#1b3c69] shadow" />
-              <span className="ml-2 h-1.5 w-20 rounded-full bg-gradient-to-r from-[#d6e7ff] to-[#adc6f4]" />
-            </div>
-          </Link>
-          
-          {/* Date & Time Display */}
-          <div className="hidden lg:flex items-center gap-4 px-5 py-3 rounded-full bg-white/80 backdrop-blur-sm border border-[#cbd5e1] shadow-sm relative z-10">
-            <div className="flex items-center gap-3">
-              <svg className="h-5 w-5 text-[#1b3c69]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <div className="flex flex-col">
-                <span className="text-sm font-medium text-[#1b3c69]">{currentDateTime.day}</span>
-                <span className="text-sm text-[#46658f]">{currentDateTime.date} {currentDateTime.month} {currentDateTime.year}</span>
-              </div>
-            </div>
-            <div className="h-6 w-px bg-[#cbd5e1]"></div>
-            <div className="flex items-center gap-2">
-              <svg className="h-5 w-5 text-[#1b3c69]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span className="text-base font-semibold text-[#1b3c69]">{currentDateTime.time}</span>
-            </div>
-          </div>
-          
-          <nav className="hidden items-center gap-8 lg:gap-10 text-lg lg:text-xl font-medium text-[#24497b] lg:flex relative z-10">
-            {navigation.map((item) => {
-              const hasChildren = item.children && item.children.length > 0;
-              if (!hasChildren) {
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="relative transition hover:text-[#0f305c] py-2 px-1"
-                  >
-                    {item.name}
-                    <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-[#1b3c69] transition-all duration-300 hover:w-full"></span>
-                  </Link>
-                );
-              }
-              return (
-                <div key={item.name} className="group relative inline-flex items-center">
-                  <button
-                    type="button"
-                    className="flex items-center gap-1 transition hover:text-[#0f305c] py-2 px-1"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    {item.name}
-                    <span className="text-xs transition group-hover:-translate-y-[2px]">▾</span>
-                  </button>
-                  <div className="pointer-events-none absolute left-1/2 top-full z-40 hidden w-64 -translate-x-1/2 pt-4 group-hover:block">
-                    <div className="pointer-events-auto relative rounded-2xl bg-gradient-to-b from-[#0e365f] to-[#1b3c69] p-6 text-white shadow-2xl">
-                      <span className="absolute left-1/2 top-0 h-4 w-4 -translate-y-1/2 -translate-x-1/2 rotate-45 rounded-sm bg-[#0e365f]" />
-                      <div className="flex flex-col gap-3">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.name}
-                            href={child.href}
-                            className="rounded-xl text-lg font-semibold transition hover:text-[#d6e7ff] hover:bg-white/10 px-4 py-2 -mx-2"
-                          >
-                            {child.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-            <div className="ml-4 flex items-center gap-3">
-              <span className="hidden xl:inline-block h-6 w-px bg-[#dbe7ff]" />
-              <button className="flex h-10 w-10 lg:h-11 lg:w-11 items-center justify-center rounded-full bg-[#eef4ff] text-[#1b3c69] shadow-sm hover:bg-[#e2ecff] transition" aria-hidden="true">
-                <svg className="h-5 w-5 lg:h-6 lg:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"/></svg>
-              </button>
-              <button className="flex h-10 w-10 lg:h-11 lg:w-11 items-center justify-center rounded-full bg-[#eef4ff] text-[#1b3c69] shadow-sm hover:bg-[#e2ecff] transition" aria-hidden="true">
-                <svg className="h-5 w-5 lg:h-6 lg:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5"/></svg>
-              </button>
-            </div>
-            <Link
-              href="/login/guru"
-              className="ml-4 rounded-full bg-[#1b3c69] px-7 py-3 text-lg lg:text-xl font-semibold text-white transition hover:bg-[#0f305c] hover:shadow-lg hover:-translate-y-0.5"
-            >
-              Login
-            </Link>
-          </nav>
+    <div id="home" className="min-h-screen bg-gradient-to-b from-[#d9eeff] via-[#eaf4ff] to-[#d6e7ff] text-[#16365f] relative">
+      <MainNavbar activePath="/" />
 
-          <button className="lg:hidden text-[#24497b] hover:text-[#0f305c] p-2 relative z-10">
-            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-      </header>
-
-      <main className="space-y-16 lg:space-y-24">
+      <main className="space-y-10 lg:space-y-16">
         {/* Hero Section */}
-        <section className="relative h-[500px] lg:h-[600px] overflow-hidden bg-gradient-to-br from-[#1f3f6d] to-[#0e365f] shadow-2xl">
+        <section className="relative h-[350px] lg:h-[450px] overflow-hidden bg-gradient-to-br from-[#1f3f6d] to-[#0e365f] shadow-2xl">
           <Image
-            src={HERO_IMAGE}
+            src="/tiba.png"
             alt="Siswa SMK Taruna Bhakti"
             fill
             priority
@@ -355,19 +328,19 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#0c1e3b]/95 via-[#0f2547]/60 to-transparent" />
           <div className="absolute inset-0 flex items-center justify-center px-6">
             <div className="text-center text-white max-w-3xl">
-              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 drop-shadow-lg">Selamat Datang di</h1>
-              <h2 className="text-3xl lg:text-4xl xl:text-5xl font-semibold mb-3">SMK Taruna Bhakti Depok</h2>
-              <p className="text-lg lg:text-xl opacity-95 mb-8">Unggul, Kreatif, Berdaya Saing</p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold mb-3 drop-shadow-lg">Selamat Datang di</h1>
+              <h2 className="text-xl lg:text-2xl xl:text-3xl font-semibold mb-2">SMK Taruna Bhakti Depok</h2>
+              <p className="text-base lg:text-lg opacity-95 mb-6">Unggul, Kreatif, Berdaya Saing</p>
+              <div className="flex flex-col sm:flex-row justify-center gap-3">
                 <Link 
                   href="/ppdb" 
-                  className="rounded-full bg-white text-[#1b3c69] px-8 py-4 font-semibold hover:bg-gray-100 transition hover:shadow-xl hover:-translate-y-1"
+                  className="rounded-full bg-white text-[#1b3c69] px-6 py-2.5 text-sm font-semibold hover:bg-gray-100 transition hover:shadow-xl hover:-translate-y-1"
                 >
                   Daftar PPDB
                 </Link>
                 <Link 
                   href="/profil/sejarah-sekolah" 
-                  className="rounded-full border-2 border-white text-white px-8 py-4 font-semibold hover:bg-white hover:text-[#1b3c69] transition"
+                  className="rounded-full border-2 border-white text-white px-6 py-2.5 text-sm font-semibold hover:bg-white hover:text-[#1b3c69] transition"
                 >
                   Pelajari Lebih Lanjut
                 </Link>
@@ -377,72 +350,74 @@ export default function Home() {
         </section>
 
         {/* About Section */}
-        <section className="relative py-8">
+        <section className="relative py-5">
           {/* Background biru muda */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#d9eeff] via-[#eaf4ff] to-[#d6e7ff]"></div>
           <div className="mx-auto w-full max-w-[92%] lg:max-w-[90%] px-4 sm:px-6 lg:px-8 relative">
-            <div className="rounded-3xl bg-white p-8 lg:p-16 shadow-xl">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
+            <div className="rounded-2xl bg-white p-5 lg:p-10 shadow-xl">
+          <div className="flex flex-col lg:flex-row items-center gap-8">
             <div className="flex-shrink-0">
-              <div className="relative h-64 w-64 overflow-hidden rounded-full bg-gradient-to-br from-[#e4f1ff] to-[#d9eeff] p-6 shadow-lg">
+              <div className="relative w-56 h-auto bg-white shadow-lg rounded-xl border-2 border-[#e4f1ff] flex items-center justify-center p-4">
                 <Image
-                  src={LOGO_IMAGE}
+                  src="/tb.png"
                   alt="Logo SMK Taruna Bhakti"
-                  fill
+                  width={224}
+                  height={224}
                   unoptimized
-                  className="object-contain p-6"
+                  className="object-contain w-full h-auto"
+                  style={{ objectFit: 'contain' }}
                 />
               </div>
             </div>
             <div className="flex-1 text-center lg:text-left">
-              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-[#1b3c69] mb-4">SMK Taruna Bhakti Depok</h1>
-              <p className="text-xl lg:text-2xl font-semibold text-[#24497b] mb-2">YAYASAN SETYA BHAKTI</p>
-              <p className="text-base lg:text-lg text-[#46658f] mb-6">Depok • Unggul, Kreatif, Berdaya Saing</p>
+              <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-[#1b3c69] mb-3">SMK Taruna Bhakti Depok</h1>
+              <p className="text-lg lg:text-xl font-semibold text-[#24497b] mb-1.5">YAYASAN SETYA BHAKTI</p>
+              <p className="text-sm lg:text-base text-[#46658f] mb-4">Depok • Unggul, Kreatif, Berdaya Saing</p>
             </div>
           </div>
 
-          <div className="mt-12 grid md:grid-cols-2 gap-8">
-            <div className="rounded-2xl bg-white p-8 lg:p-10 shadow-md border border-[#e2e8f0]">
-              <h3 className="mb-5 text-3xl lg:text-4xl font-bold text-[#1a3763] flex items-center gap-3">
-                <div className="flex h-12 w-12 lg:h-14 lg:w-14 items-center justify-center rounded-full bg-[#1b3c69]/10">
-                  <svg className="h-7 w-7 lg:h-8 lg:w-8 text-[#1b3c69]" fill="currentColor" viewBox="0 0 24 24">
+          <div className="mt-8 grid md:grid-cols-2 gap-6">
+            <div className="rounded-xl bg-white p-5 lg:p-7 shadow-md border border-[#e2e8f0]">
+              <h3 className="mb-4 text-xl lg:text-2xl font-bold text-[#1a3763] flex items-center gap-2">
+                <div className="flex h-9 w-9 lg:h-10 lg:w-10 items-center justify-center rounded-full bg-[#1b3c69]/10">
+                  <svg className="h-5 w-5 lg:h-6 lg:w-6 text-[#1b3c69]" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                   </svg>
                 </div>
                 Visi
               </h3>
-              <p className="text-lg lg:text-xl leading-relaxed text-[#2d4e7a]">
+              <p className="text-base lg:text-lg leading-relaxed text-[#2d4e7a]">
                 Menghasilkan lulusan yang kompeten dalam IPTEK DAN IMTAQ, serta mampu bersaing pada tingkat nasional dan global.
               </p>
             </div>
-            <div className="rounded-2xl bg-white p-8 lg:p-10 shadow-md border border-[#e2e8f0]">
-              <h3 className="mb-5 text-3xl lg:text-4xl font-bold text-[#1a3763] flex items-center gap-3">
-                <div className="flex h-12 w-12 lg:h-14 lg:w-14 items-center justify-center rounded-full bg-[#1b3c69]/10">
-                  <svg className="h-7 w-7 lg:h-8 lg:w-8 text-[#1b3c69]" fill="currentColor" viewBox="0 0 24 24">
+            <div className="rounded-xl bg-white p-5 lg:p-7 shadow-md border border-[#e2e8f0]">
+              <h3 className="mb-4 text-xl lg:text-2xl font-bold text-[#1a3763] flex items-center gap-2">
+                <div className="flex h-9 w-9 lg:h-10 lg:w-10 items-center justify-center rounded-full bg-[#1b3c69]/10">
+                  <svg className="h-5 w-5 lg:h-6 lg:w-6 text-[#1b3c69]" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
                   </svg>
                 </div>
                 Misi
               </h3>
-              <ul className="space-y-4 text-lg lg:text-xl text-[#2d4e7a]">
-                <li className="flex items-start gap-4">
-                  <span className="flex h-7 w-7 lg:h-8 lg:w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#1b3c69] text-white text-sm lg:text-base font-bold mt-0.5">1</span>
+              <ul className="space-y-3 text-base lg:text-lg text-[#2d4e7a]">
+                <li className="flex items-start gap-3">
+                  <span className="flex h-6 w-6 lg:h-7 lg:w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#1b3c69] text-white text-xs lg:text-sm font-bold mt-0.5">1</span>
                   <span>Menumbuhkan semangat kreatifitas, berdaya saing dan kompetitif kepada seluruh warga sekolah.</span>
                 </li>
-                <li className="flex items-start gap-4">
-                  <span className="flex h-7 w-7 lg:h-8 lg:w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#1b3c69] text-white text-sm lg:text-base font-bold mt-0.5">2</span>
+                <li className="flex items-start gap-3">
+                  <span className="flex h-6 w-6 lg:h-7 lg:w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#1b3c69] text-white text-xs lg:text-sm font-bold mt-0.5">2</span>
                   <span>Melaksanakan kurikulum melalui pembelajaran dan penilaian berbasis kompetensi, Berbasis wirausaha, berwawasan lingkungan dan berlandaskan kejujuran.</span>
                 </li>
-                <li className="flex items-start gap-4">
-                  <span className="flex h-7 w-7 lg:h-8 lg:w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#1b3c69] text-white text-sm lg:text-base font-bold mt-0.5">3</span>
+                <li className="flex items-start gap-3">
+                  <span className="flex h-6 w-6 lg:h-7 lg:w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#1b3c69] text-white text-xs lg:text-sm font-bold mt-0.5">3</span>
                   <span>Meningkatkan kualitas sumber daya manusia melalui sertifikasi Kompetensi Tingkat Nasional dan Internasional.</span>
                 </li>
-                <li className="flex items-start gap-4">
-                  <span className="flex h-7 w-7 lg:h-8 lg:w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#1b3c69] text-white text-sm lg:text-base font-bold mt-0.5">4</span>
+                <li className="flex items-start gap-3">
+                  <span className="flex h-6 w-6 lg:h-7 lg:w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#1b3c69] text-white text-xs lg:text-sm font-bold mt-0.5">4</span>
                   <span>Mengembangkan potensi peserta didik melalui kegiatan Minat dan Bakat dan pembinaan kedisiplinan.</span>
                 </li>
-                <li className="flex items-start gap-4">
-                  <span className="flex h-7 w-7 lg:h-8 lg:w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#1b3c69] text-white text-sm lg:text-base font-bold mt-0.5">5</span>
+                <li className="flex items-start gap-3">
+                  <span className="flex h-6 w-6 lg:h-7 lg:w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#1b3c69] text-white text-xs lg:text-sm font-bold mt-0.5">5</span>
                   <span>Menerapkan layanan prima dalam pengelolaan sekolah melalui Sistem Manajemen Mutu.</span>
                 </li>
               </ul>
@@ -453,22 +428,22 @@ export default function Home() {
         </section>
 
         {/* Majors Slideshow Section */}
-        <section className="relative py-8">
+        <section className="relative py-3">
           {/* Background biru muda yang menyatu dengan section di atas */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#eaf4ff] via-[#f0f7ff] to-[#e8f3ff]"></div>
           <div className="mx-auto w-full max-w-[92%] lg:max-w-[90%] px-4 sm:px-6 lg:px-8 relative">
-            <div className="rounded-3xl bg-white p-8 lg:p-12 shadow-xl">
-              <div className="mb-10 text-center">
-            <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-[#1b3c69] mb-5">
+            <div className="rounded-2xl bg-white p-5 lg:p-8 shadow-xl">
+              <div className="mb-6 text-center">
+            <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-[#1b3c69] mb-3">
               Jurusan yang Tersedia
             </h2>
-            <p className="text-xl lg:text-2xl text-[#46658f] max-w-3xl mx-auto">
+            <p className="text-base lg:text-lg text-[#46658f] max-w-3xl mx-auto">
               Pilih jurusan impianmu dan wujudkan masa depan gemilang dengan 6 program keahlian unggulan
             </p>
               </div>
 
               <div className="relative">
-            <div className="relative h-[500px] lg:h-[600px] overflow-hidden rounded-3xl bg-white shadow-lg">
+            <div className="relative h-[250px] lg:h-[320px] overflow-hidden rounded-2xl bg-white shadow-lg">
               {majors.map((major, index) => (
                 <div
                   key={major.code}
@@ -481,31 +456,31 @@ export default function Home() {
                   }`}
                 >
                   <div className="flex flex-col lg:flex-row h-full">
-                    <div className="flex-1 flex flex-col justify-center p-8 lg:p-12">
-                      <div className="mb-6">
-                        <span className="inline-block px-5 py-2.5 rounded-full bg-[#1b3c69]/10 text-[#1b3c69] font-bold text-base lg:text-lg mb-4">
+                    <div className="flex-1 flex flex-col justify-center p-4 lg:p-6">
+                      <div className="mb-3">
+                        <span className="inline-block px-3 py-1.5 rounded-full bg-[#1b3c69]/10 text-[#1b3c69] font-bold text-xs lg:text-sm mb-2">
                           {major.code}
                         </span>
                       </div>
-                      <h3 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-[#1a3763] mb-5">
+                      <h3 className="text-xl lg:text-2xl xl:text-3xl font-bold text-[#1a3763] mb-2">
                         {major.title}
                       </h3>
-                      <p className="text-xl lg:text-2xl xl:text-3xl text-[#4b6a90] leading-relaxed mb-8">
+                      <p className="text-sm lg:text-base xl:text-lg text-[#4b6a90] leading-relaxed mb-4">
                         {major.description}
                       </p>
                       <Link
                         href="/ppdb"
-                        className="inline-flex items-center gap-2 text-xl lg:text-2xl font-semibold text-[#1b3c69] hover:text-[#0f305c] transition group"
+                        className="inline-flex items-center gap-2 text-base lg:text-lg font-semibold text-[#1b3c69] hover:text-[#0f305c] transition group"
                       >
                         <span>Daftar Sekarang</span>
-                        <svg className="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </Link>
                     </div>
                     <div className="flex-1 relative overflow-hidden">
-                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#f5f9ff] to-[#eaf4ff]">
-                        <div className="relative h-64 w-64 lg:h-80 lg:w-80">
+                      <div className="absolute inset-0 flex items-center justify-center bg-white">
+                        <div className="relative h-36 w-36 lg:h-48 lg:w-48">
                           <Image
                             src={major.image}
                             alt={major.title}
@@ -515,7 +490,6 @@ export default function Home() {
                           />
                         </div>
                       </div>
-                      <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/20" />
                     </div>
                   </div>
                 </div>
@@ -525,17 +499,17 @@ export default function Home() {
             {/* Navigation Buttons */}
             <button
               onClick={prevMajorSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-[#1b3c69] shadow-lg hover:bg-white transition hover:scale-110 z-10"
+              className="absolute left-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#1b3c69] shadow-lg hover:bg-white transition hover:scale-110 z-10"
             >
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <button
               onClick={nextMajorSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-[#1b3c69] shadow-lg hover:bg-white transition hover:scale-110 z-10"
+              className="absolute right-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#1b3c69] shadow-lg hover:bg-white transition hover:scale-110 z-10"
             >
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -558,19 +532,19 @@ export default function Home() {
         </section>
 
         {/* Achievements Slideshow Section */}
-        <section className="relative py-8">
+        <section className="relative py-5">
           <div className="absolute inset-0 bg-gradient-to-b from-[#f0f7ff] via-[#f5faff] to-[#f2f8ff]" />
           <div className="mx-auto w-full max-w-[92%] lg:max-w-[90%] px-4 sm:px-6 lg:px-8 relative">
-            <div className="rounded-3xl bg-white p-8 lg:p-12 shadow-xl">
-              <div className="mb-10">
-                <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-[#1b3c69] mb-5">Prestasi</h2>
-                <p className="text-xl lg:text-2xl text-[#2f4f78] max-w-3xl">
+            <div className="rounded-2xl bg-white p-5 lg:p-8 shadow-xl">
+              <div className="mb-6">
+                <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-[#1b3c69] mb-3">Prestasi</h2>
+                <p className="text-base lg:text-lg text-[#2f4f78] max-w-3xl">
                   Berikut pencapaian yang diperoleh siswa dalam bidang akademik maupun nonakademik sebagai bukti usaha, kemampuan, dan dedikasi selama belajar di sekolah.
                 </p>
               </div>
 
               <div className="relative">
-                <div className="relative h-[400px] lg:h-[450px] overflow-hidden rounded-3xl bg-white shadow-lg">
+                <div className="relative h-[250px] lg:h-[280px] overflow-hidden rounded-2xl bg-white shadow-lg">
               {achievements.map((achievement, index) => (
                 <div
                   key={index}
@@ -580,17 +554,17 @@ export default function Home() {
                       : 'opacity-0 scale-95'
                   }`}
                 >
-                  <div className="flex flex-col justify-center h-full p-8 lg:p-12">
+                  <div className="flex flex-col justify-center h-full p-5 lg:p-8">
                     <div className="max-w-3xl mx-auto text-center">
-                      <div className={`inline-flex h-20 w-20 lg:h-24 lg:w-24 items-center justify-center rounded-full bg-gradient-to-br ${achievement.color} text-white mb-6 shadow-lg`}>
-                        <div className="scale-125 lg:scale-150">
+                      <div className={`inline-flex h-16 w-16 lg:h-18 lg:w-18 items-center justify-center rounded-full bg-gradient-to-br ${achievement.color} text-white mb-4 shadow-lg`}>
+                        <div className="scale-110 lg:scale-125">
                           {achievement.icon}
                         </div>
                       </div>
-                      <h3 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-[#1a3763] mb-5">
+                      <h3 className="text-xl lg:text-2xl xl:text-3xl font-bold text-[#1a3763] mb-3">
                         {achievement.title}
                       </h3>
-                      <p className="text-xl lg:text-2xl xl:text-3xl text-[#45628a] leading-relaxed">
+                      <p className="text-base lg:text-lg xl:text-xl text-[#45628a] leading-relaxed">
                         {achievement.description}
                       </p>
                     </div>
@@ -602,17 +576,17 @@ export default function Home() {
                 {/* Navigation Buttons */}
                 <button
                   onClick={prevAchievementSlide}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-[#1b3c69] shadow-lg hover:bg-white transition hover:scale-110 z-10"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#1b3c69] shadow-lg hover:bg-white transition hover:scale-110 z-10"
                 >
-                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
                 <button
                   onClick={nextAchievementSlide}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-[#1b3c69] shadow-lg hover:bg-white transition hover:scale-110 z-10"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#1b3c69] shadow-lg hover:bg-white transition hover:scale-110 z-10"
                 >
-                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
@@ -635,49 +609,25 @@ export default function Home() {
         </section>
 
         {/* News Section */}
-        <section className="bg-white/90 p-8 lg:p-12 shadow-xl backdrop-blur-sm">
-          <div className="mb-10 text-center">
-            <h2 className="text-3xl lg:text-4xl font-bold text-[#1b3c69] mb-4">
-              Berita Terbaru STARBHAK
-            </h2>
-            <p className="text-lg text-[#46658f]">Informasi terkini dan kegiatan menarik dari SMK Taruna Bhakti</p>
-          </div>
+        <section className="bg-white py-5 lg:py-8">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            {/* Header */}
+            <div className="mb-6">
+              <div className="bg-yellow-400 px-4 py-2 inline-block mb-4">
+                <span className="text-sm font-bold text-gray-900 uppercase">Berita Terbaru</span>
+              </div>
+            </div>
 
-          <div className="relative">
-            <div className="relative h-[500px] lg:h-[600px] overflow-hidden bg-gradient-to-br from-white/95 to-[#f8fafc]/95 shadow-lg">
-              {news.map((item, index) => (
-                <div
-                  key={index}
-                  className={`absolute inset-0 transition-opacity duration-700 ${
-                    index === currentNewsSlide ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  <div className="flex flex-col lg:flex-row h-full">
-                    <div className="flex-1 flex flex-col justify-center p-8 lg:p-12">
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#1b3c69] to-[#0f305c] text-white">
-                          <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                          </svg>
-                        </div>
-                        <span className="text-sm font-bold uppercase tracking-wide text-[#1b3c69]">
-                          {item.date}
-                        </span>
-                      </div>
-                      <h3 className="text-3xl lg:text-4xl font-bold text-[#1a3763] mb-4">
-                        {item.title}
-                      </h3>
-                      <p className="text-lg lg:text-xl text-[#4b6a90] leading-relaxed mb-6">
-                        {item.description}
-                      </p>
-                      <div className="flex items-center gap-2 text-lg font-semibold text-[#1b3c69] hover:text-[#0f305c] transition cursor-pointer group">
-                        <span>Selengkapnya</span>
-                        <svg className="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </div>
-                    </div>
-                    <div className="flex-1 relative overflow-hidden">
+            {/* Infinite Carousel Container */}
+            <div className="relative overflow-hidden">
+              <div className="flex animate-infinite-scroll gap-4 lg:gap-6" style={{ width: 'max-content' }}>
+                {/* Duplicate items for seamless loop - render twice for infinite effect */}
+                {[...news, ...news].map((item, index) => (
+                  <div
+                    key={`news-${index}`}
+                    className="flex-shrink-0 w-[280px] lg:w-[320px] bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow"
+                  >
+                    <div className="relative h-40 lg:h-48">
                       <Image
                         src={item.image}
                         alt={item.title}
@@ -685,87 +635,103 @@ export default function Home() {
                         className="object-cover"
                         unoptimized
                       />
-                      <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/20" />
+                    </div>
+                    <div className="p-3 lg:p-4">
+                      <div className="bg-yellow-400 px-2 py-1 inline-block mb-2">
+                        <span className="text-xs font-semibold text-gray-900">{item.date}</span>
+                      </div>
+                      <h3 className="text-sm lg:text-base font-bold text-gray-900 mb-2 leading-tight line-clamp-2 min-h-[2.5rem]">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs lg:text-sm text-gray-600 mb-3 line-clamp-2 min-h-[2.5rem]">
+                        {item.description}
+                      </p>
+                      <Link href="#" className="text-xs lg:text-sm text-[#1b3c69] hover:underline font-medium inline-flex items-center gap-1">
+                        Baca Selengkapnya
+                        <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </Link>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Navigation Buttons */}
-            <button
-              onClick={prevNewsSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-[#1b3c69] shadow-lg hover:bg-white transition hover:scale-110 z-10"
-            >
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <button
-              onClick={nextNewsSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-[#1b3c69] shadow-lg hover:bg-white transition hover:scale-110 z-10"
-            >
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-
-            {/* Indicators */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-              {news.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentNewsSlide(index)}
-                  className={`h-3 rounded-full transition-all ${
-                    index === currentNewsSlide ? 'bg-[#1b3c69] w-8' : 'bg-[#cbd5e1] w-3'
-                  }`}
-                />
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 bg-[#1b3c69] py-16 lg:py-20 text-white">
+      <footer className="mt-12 bg-gradient-to-r from-[#d9eeff] via-[#eaf4ff] to-[#d6e7ff] py-5 lg:py-8 text-[#1b3c69] border-t-2 border-[#cbd5e1]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            <div className="space-y-4">
-              <h3 className="text-xl lg:text-2xl font-bold">SMK Taruna Bhakti</h3>
-              <p className="text-base lg:text-lg text-gray-300">Unggul, Kreatif, Berdaya Saing</p>
-              <p className="text-base lg:text-lg text-gray-300">Depok • Yayasan Setya Bhakti</p>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="relative h-8 w-8 bg-white shadow-lg overflow-hidden border-2 border-[#1b3c69]/20 rounded-lg flex items-center justify-center p-0.5">
+                  <Image
+                    src="/tb.png"
+                    alt="Logo SMK Taruna Bhakti"
+                    width={32}
+                    height={32}
+                    unoptimized
+                    className="object-contain w-full h-full"
+                    style={{ objectFit: 'contain' }}
+                  />
+                </div>
+              <h3 className="text-base lg:text-lg font-bold text-[#1b3c69]">SMK Taruna Bhakti</h3>
+              </div>
+              <p className="text-sm lg:text-base font-medium text-[#1b3c69]">Unggul, Kreatif, Berdaya Saing</p>
+              <p className="text-sm lg:text-base text-[#46658f]">Depok • Yayasan Setya Bhakti</p>
             </div>
-            <div className="space-y-4">
-              <h4 className="text-xl lg:text-2xl font-semibold">Profile</h4>
-              <ul className="space-y-2 text-base lg:text-lg">
-                <li><Link href="/profil/sejarah-sekolah" className="text-gray-300 hover:text-white transition">Sejarah Sekolah</Link></li>
-                <li><Link href="/profil/struktur-organisasi" className="text-gray-300 hover:text-white transition">Struktur Organisasi</Link></li>
-                <li><Link href="/profil/guru-tenaga-pendidikan" className="text-gray-300 hover:text-white transition">Guru & Tenaga Kependidikan</Link></li>
+            <div className="space-y-3">
+              <h4 className="text-base lg:text-lg font-bold text-[#1b3c69] border-b-2 border-[#1b3c69]/20 pb-1.5">Profile</h4>
+              <ul className="space-y-2 text-sm lg:text-base">
+                <li><Link href="/profil/sejarah-sekolah" className="text-[#46658f] hover:text-[#1b3c69] transition hover:translate-x-1 inline-block">Sejarah Sekolah</Link></li>
+                <li><Link href="/profil/struktur-organisasi" className="text-[#46658f] hover:text-[#1b3c69] transition hover:translate-x-1 inline-block">Struktur Organisasi</Link></li>
+                <li><Link href="/profil/guru-tenaga-pendidikan" className="text-[#46658f] hover:text-[#1b3c69] transition hover:translate-x-1 inline-block">Guru & Tenaga Kependidikan</Link></li>
               </ul>
             </div>
-            <div className="space-y-4">
-              <h4 className="text-xl lg:text-2xl font-semibold">Sarana-Prasarana</h4>
-              <ul className="space-y-2 text-base lg:text-lg">
-                <li><Link href="/sarana-prasarana/masjid-al-kautsar" className="text-gray-300 hover:text-white transition">Masjid Al-Kautsar</Link></li>
-                <li><Link href="/sarana-prasarana/ruang-bimbingan-konseling" className="text-gray-300 hover:text-white transition">Ruang Bimbingan Konseling</Link></li>
-                <li><Link href="/sarana-prasarana/pos-keamanan" className="text-gray-300 hover:text-white transition">Pos Keamanan</Link></li>
-                <li><Link href="/sarana-prasarana/kantin" className="text-gray-300 hover:text-white transition">Kantin</Link></li>
+            <div className="space-y-3">
+              <h4 className="text-base lg:text-lg font-bold text-[#1b3c69] border-b-2 border-[#1b3c69]/20 pb-1.5">Sarana-Prasarana</h4>
+              <ul className="space-y-2 text-sm lg:text-base">
+                <li><Link href="/sarana-prasarana/masjid-al-kautsar" className="text-[#46658f] hover:text-[#1b3c69] transition hover:translate-x-1 inline-block">Masjid Al-Kautsar</Link></li>
+                <li><Link href="/sarana-prasarana/ruang-bimbingan-konseling" className="text-[#46658f] hover:text-[#1b3c69] transition hover:translate-x-1 inline-block">Ruang Bimbingan Konseling</Link></li>
+                <li><Link href="/sarana-prasarana/pos-keamanan" className="text-[#46658f] hover:text-[#1b3c69] transition hover:translate-x-1 inline-block">Pos Keamanan</Link></li>
+                <li><Link href="/sarana-prasarana/kantin" className="text-[#46658f] hover:text-[#1b3c69] transition hover:translate-x-1 inline-block">Kantin</Link></li>
               </ul>
             </div>
-            <div className="space-y-4">
-              <h4 className="text-xl lg:text-2xl font-semibold">Lainnya</h4>
-              <ul className="space-y-2 text-base lg:text-lg">
-                <li><Link href="/ppdb" className="text-gray-300 hover:text-white transition">PPDB</Link></li>
-                <li><Link href="/data-alumni" className="text-gray-300 hover:text-white transition">Data Alumni</Link></li>
-                <li><Link href="/login/guru" className="text-gray-300 hover:text-white transition">Login Guru</Link></li>
-                <li><Link href="/login/siswa" className="text-gray-300 hover:text-white transition">Login Siswa</Link></li>
-                <li><Link href="/login/super-admin" className="text-gray-300 hover:text-white transition">Login Super Admin</Link></li>
-                <li><Link href="/register" className="text-gray-300 hover:text-white transition">Register</Link></li>
+            <div className="space-y-3">
+              <h4 className="text-base lg:text-lg font-bold text-[#1b3c69] border-b-2 border-[#1b3c69]/20 pb-1.5">Lainnya</h4>
+              <ul className="space-y-2 text-sm lg:text-base">
+                <li>
+                  <Link
+                    href="/ppdb"
+                    className="text-[#46658f] hover:text-[#1b3c69] transition hover:translate-x-1 inline-block"
+                  >
+                    PPDB
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
-          <div className="mt-8 border-t border-white/20 pt-6 text-center">
-            <p className="text-base lg:text-lg text-gray-300">© 2024 SMK Taruna Bhakti Depok. All rights reserved.</p>
+          <div className="pt-6 border-t-2 border-[#cbd5e1]">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-3">
+              <p className="text-sm lg:text-base text-[#46658f] font-medium">© 2025 SMK Taruna Bhakti Depok. All rights reserved.</p>
+              <div className="flex items-center gap-3">
+                <span className="text-xs text-[#46658f]">Follow Us:</span>
+                <div className="flex gap-2">
+                  <a href="#" className="h-8 w-8 rounded-full bg-white border border-[#cbd5e1] flex items-center justify-center text-[#1b3c69] hover:bg-[#1b3c69] hover:text-white transition shadow-sm">
+                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  </a>
+                  <a href="#" className="h-8 w-8 rounded-full bg-white border border-[#cbd5e1] flex items-center justify-center text-[#1b3c69] hover:bg-[#1b3c69] hover:text-white transition shadow-sm">
+                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                  </a>
+                  <a href="#" className="h-8 w-8 rounded-full bg-white border border-[#cbd5e1] flex items-center justify-center text-[#1b3c69] hover:bg-[#1b3c69] hover:text-white transition shadow-sm">
+                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </footer>

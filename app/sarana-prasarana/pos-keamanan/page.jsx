@@ -1,4 +1,5 @@
 import Link from "next/link";
+import MainNavbar from "@/components/layout/MainNavbar";
 
 export const metadata = {
   title: "Pos Keamanan - SMK Taruna Bhakti Depok",
@@ -73,6 +74,7 @@ export default function PosKeamananPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#d9eeff] via-[#eaf4ff] to-[#caddff] text-[#16365f]">
+      <MainNavbar activePath="/sarana-prasarana/pos-keamanan" />
       {/* Back Button */}
       <div className="mx-auto max-w-6xl px-6 py-4">
         <Link

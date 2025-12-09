@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import MainNavbar from "@/components/layout/MainNavbar";
 
 export const metadata = {
   title: "Masjid Al-Kautsar - SMK Taruna Bhakti Depok",
@@ -55,6 +56,7 @@ export default function MasjidAlKautsarPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#d9eeff] via-[#eaf4ff] to-[#caddff] text-[#16365f]">
+      <MainNavbar activePath="/sarana-prasarana/masjid-al-kautsar" />
       {/* Back Button */}
       <div className="mx-auto max-w-6xl px-6 py-4">
         <Link

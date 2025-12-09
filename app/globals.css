@@ -24,3 +24,46 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes infinite-carousel {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-infinite-scroll {
+  animation: infinite-carousel 80s linear infinite;
+  will-change: transform;
+  display: flex;
+}
+
+.animate-infinite-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Pixel Art Styles */
+.pixel-border {
+  border: 2px solid #000 !important;
+  box-shadow: 2px 2px 0px #000 !important;
+  border-radius: 0 !important;
+}
+
+.pixel-bg {
+  background: #fff !important;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.pixel-text {
+  color: #000 !important;
+  text-shadow: 1px 1px 0px #fff;
+}
+
+.pixel-font {
+  font-family: 'Courier New', monospace !important;
+  font-weight: bold !important;
+}

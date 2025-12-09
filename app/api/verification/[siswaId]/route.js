@@ -4,7 +4,7 @@ import { verifyToken } from "@/lib/auth";
 import { getCookieValue } from "@/lib/serverCookies";
 
 const ALLOWED_STATUS = ["pending", "diterima", "ditolak"];
-const ALLOWED_ROLES = ["guru", "superadmin"];
+const ALLOWED_ROLES = ["guru", "admin"];
 
 async function ensureAuthorized() {
   const token = await getCookieValue("ppdb_token");
@@ -30,7 +30,7 @@ export async function PATCH(request, { params }) {
     // ignore, body optional
   }
 
-  const siswaIdFromUrl = params?.siswaId;
+  const { siswaId: siswaIdFromUrl } = await params;
   const siswaIdFromBody = body?.siswaId;
   const siswaId = siswaIdFromUrl ?? siswaIdFromBody;
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import MainNavbar from "@/components/layout/MainNavbar";
 
 export const metadata = {
   title: "Guru & Tenaga Pendidikan - SMK Taruna Bhakti Depok",
@@ -8,87 +9,65 @@ export const metadata = {
 export default function GuruTenagaPendidikanPage() {
   const guruData = [
     {
-      nama: "Dr. Ahmad Santoso, M.Pd.",
-      jabatan: "Kepala Sekolah",
-      bidang: "Administrasi & Manajemen",
+      nama: "Novita Ambarwati, S.Pd",
+      jabatan: "Guru Ipas",
       pengalaman: "20 tahun",
-      pendidikan: "S3 Pendidikan Teknologi",
-      foto: "https://dummyimage.com/150x150/eff6ff/1b3c69.png&text=KS"
+      pendidikan: "S1 Pendidikan IPA",
+      foto: "/bubar.png"
     },
     {
-      nama: "Dra. Siti Aminah, M.Pd.",
-      jabatan: "Wakil Kepala Sekolah",
-      bidang: "Kurikulum & Pembelajaran",
+      nama: "Shova Al-Marwah, S.Pd",
+      jabatan: "Guru PAI & POKJA HUBIN",
       pengalaman: "18 tahun",
-      pendidikan: "S2 Pendidikan Matematika",
-      foto: "https://dummyimage.com/150x150/eff6ff/1b3c69.png&text=WKS"
+      pendidikan: "S1 Pendidikan Agama Islam",
+      foto: "/busho.png"
     },
     {
-      nama: "Ahmad Rahman, S.Kom.",
-      jabatan: "Guru Produktif TKJ",
-      bidang: "Teknik Jaringan Komputer",
+      nama: "Dwi Setiawan, S.Pd",
+      jabatan: "Guru Penjas",
       pengalaman: "12 tahun",
-      pendidikan: "S1 Teknik Informatika",
-      foto: "https://dummyimage.com/150x150/eff6ff/1b3c69.png&text=TKJ"
+      pendidikan: "S1 Ilmu Olahraga",
+      foto: "/dwi.png"
     },
     {
-      nama: "Siti Nurhaliza, S.Kom.",
-      jabatan: "Guru Produktif RPL",
-      bidang: "Rekayasa Perangkat Lunak",
+      nama: "Diva Susilowati, S.Pd",
+      jabatan: "Guru Bahasa Indonesia",
       pengalaman: "10 tahun",
-      pendidikan: "S1 Teknik Informatika",
-      foto: "https://dummyimage.com/150x150/eff6ff/1b3c69.png&text=RPL"
+      pendidikan: "S1 Bahasa Indonesia",
+      foto: "/budiv.png"
     },
     {
-      nama: "Budi Santoso, S.Sn.",
-      jabatan: "Guru Produktif Animasi",
-      bidang: "Desain & Animasi Digital",
+      nama: "Aniek Rochmawati, S.Pd",
+      jabatan: "Guru Pancasila",
       pengalaman: "8 tahun",
-      pendidikan: "S1 Desain Komunikasi Visual",
-      foto: "https://dummyimage.com/150x150/eff6ff/1b3c69.png&text=ANM"
+      pendidikan: "S1 Pancasila",
+      foto: "/bunik.png"
     },
     {
-      nama: "Dewi Lestari, S.T.",
-      jabatan: "Guru Produktif Elektro",
-      bidang: "Teknik Elektro",
+      nama: "Ana Susilowati, S.Pd",
+      jabatan: "Guru Bahasa Inggris",
       pengalaman: "15 tahun",
       pendidikan: "S1 Teknik Elektro",
-      foto: "https://dummyimage.com/150x150/eff6ff/1b3c69.png&text=TE"
+      foto: "/buna.png"
     }
   ];
 
   const tenagaPendidikan = [
     {
-      nama: "Maya Sari, S.E.",
-      jabatan: "Kepala Tata Usaha",
+      nama: "Sheila Riani Putri, S.Pd",
+      jabatan: "Bagian Tata Usaha",
       bidang: "Administrasi & Keuangan",
       pengalaman: "14 tahun",
       pendidikan: "S1 Ekonomi",
-      foto: "https://dummyimage.com/120x120/eff6ff/1b3c69.png&text=TU"
+      foto: "/Sheila.png"
     },
     {
-      nama: "Rizki Pratama, A.Md.",
-      jabatan: "Laboran Komputer",
-      bidang: "Teknis & Laboratorium",
+      nama: "Anisatum Muawanah, S.Hum",
+      jabatan: "POKJA KESISWAAN & Guru Bahasa Sunda",
+      bidang: "Kesiswaan",
       pengalaman: "6 tahun",
       pendidikan: "D3 Teknik Informatika",
-      foto: "https://dummyimage.com/120x120/eff6ff/1b3c69.png&text=LAB"
-    },
-    {
-      nama: "Nina Kurnia, S.Pd.",
-      jabatan: "Pustakawan",
-      bidang: "Perpustakaan & Informasi",
-      pengalaman: "9 tahun",
-      pendidikan: "S1 Ilmu Perpustakaan",
-      foto: "https://dummyimage.com/120x120/eff6ff/1b3c69.png&text=PUS"
-    },
-    {
-      nama: "Fajar Nugroho",
-      jabatan: "Petugas Keamanan",
-      bidang: "Keamanan & Ketertiban",
-      pengalaman: "11 tahun",
-      pendidikan: "SMA",
-      foto: "https://dummyimage.com/120x120/eff6ff/1b3c69.png&text=SECURITY"
+      foto: "/Butum.png"
     }
   ];
 
@@ -101,6 +80,7 @@ export default function GuruTenagaPendidikanPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#d9eeff] via-[#eaf4ff] to-[#caddff] text-[#16365f]">
+      <MainNavbar activePath="/profil/guru-tenaga-pendidikan" />
       {/* Back Button */}
       <div className="mx-auto max-w-6xl px-6 py-4">
         <Link
@@ -169,10 +149,6 @@ export default function GuruTenagaPendidikanPage() {
                     </div>
                   </div>
                   <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-[#45628a]">Bidang:</span>
-                      <span className="font-semibold text-[#1a3763]">{guru.bidang}</span>
-                    </div>
                     <div className="flex justify-between">
                       <span className="text-[#45628a]">Pengalaman:</span>
                       <span className="font-semibold text-[#1a3763]">{guru.pengalaman}</span>

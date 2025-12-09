@@ -1,24 +1,28 @@
 'use client';
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AddGuruForm() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(null);
-  const [role, setRole] = useState("admin");
+  const [role, setRole] = useState("guru");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setStatus(null);
     setLoading(true);
 
-    const formData = new FormData(event.currentTarget);
-      const payload = {
-        nama: formData.get("nama"),
-        username: formData.get("username"),
-        password: formData.get("password"),
-        role,
-      };
+    // Simpan referensi form lebih awal sebelum async agar tidak null setelah await
+    const formEl = event.currentTarget;
+    const formData = new FormData(formEl);
+    const payload = {
+      nama: formData.get("nama"),
+      username: formData.get("username"),
+      password: formData.get("password"),
+      role,
+    };
 
     try {
       const response = await fetch("/api/admin/guru", {
@@ -33,9 +37,10 @@ export default function AddGuruForm() {
         throw new Error(error?.message || "Gagal menambahkan guru.");
       }
 
-      event.currentTarget.reset();
-      setRole("admin");
+      formEl.reset();
+      setRole("guru");
       setStatus({ type: "success", message: "Akun berhasil ditambahkan." });
+      router.refresh();
     } catch (error) {
       setStatus({
         type: "error",
@@ -101,8 +106,8 @@ export default function AddGuruForm() {
             onChange={(event) => setRole(event.target.value)}
             className="rounded-2xl border border-[#d7e5ff] px-4 py-3 text-sm text-[#16365f] outline-none transition focus:border-[#1b3c69] focus:ring-2 focus:ring-[#c0d8ff]"
           >
-            <option value="admin">Guru</option>
-            <option value="superadmin">Admin</option>
+            <option value="guru">Guru</option>
+            <option value="admin">Admin</option>
           </select>
         </div>
 

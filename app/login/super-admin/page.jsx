@@ -11,7 +11,7 @@ export default function SuperAdminLoginPage() {
       title="Masuk Super Admin"
       description="Masukkan kredensial super admin untuk mengelola data guru dan pendaftaran PPDB."
       role="superadmin"
-      redirectTo="/dashboard/super-admin"
+      redirectTo="/dashboard/"
       alternative={
         <>
           Login sebagai guru?{" "}

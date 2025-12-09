@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getDb } from "@/lib/db";
+import { ensureJurusanColumn } from "@/lib/schema";
 import { verifyToken } from "@/lib/auth";
 import { getCookieValue } from "@/lib/serverCookies";
+import EditStudentForm from "@/components/dashboard/EditStudentForm";
 
 export const metadata = {
-  title: "Dashboard Calon Siswa - SMK Taruna Bhakti",
+  title: "Home Calon Siswa - SMK Taruna Bhakti",
 };
 
 const STATUS_META = {
@@ -38,6 +40,7 @@ export default async function DashboardPage() {
   }
 
   const db = getDb();
+  await ensureJurusanColumn(db);
 
   const [[student]] = await db.execute(
     `SELECT 
@@ -45,9 +48,14 @@ export default async function DashboardPage() {
         s.nama_lengkap,
         s.nisn,
         s.asal_sekolah,
+        s.jurusan_pilihan,
         s.no_hp,
         s.email,
         s.created_at,
+        s.tempat_lahir,
+        s.tanggal_lahir,
+        s.jenis_kelamin,
+        s.alamat,
         CASE
           WHEN status_data.status IS NULL THEN 'pending'
           ELSE status_data.status
@@ -89,10 +97,24 @@ export default async function DashboardPage() {
   const statusKey = (student.status || "pending").toLowerCase();
   const statusInfo = STATUS_META[statusKey] || STATUS_META.pending;
 
+  const editableStudentData = {
+    namaLengkap: student.nama_lengkap || "",
+    tempatLahir: student.tempat_lahir || "",
+    tanggalLahir: student.tanggal_lahir
+      ? new Date(student.tanggal_lahir).toISOString().split("T")[0]
+      : "",
+    jenisKelamin: student.jenis_kelamin || "",
+    alamat: student.alamat || "",
+    asalSekolah: student.asal_sekolah || "",
+    noHp: student.no_hp || "",
+    jurusanPilihan: student.jurusan_pilihan || "",
+  };
+
   const tableRows = [
     { label: "Nama Lengkap", value: student.nama_lengkap },
     { label: "NISN", value: student.nisn },
     { label: "Asal Sekolah", value: student.asal_sekolah },
+    { label: "Jurusan Pilihan", value: student.jurusan_pilihan },
     { label: "Nomor Handphone", value: student.no_hp },
     { label: "Email", value: student.email },
     {
@@ -117,7 +139,7 @@ export default async function DashboardPage() {
             </p>
             <nav className="grid gap-3 text-sm font-semibold text-[#1a3763]">
               <span className="flex items-center gap-2 rounded-2xl bg-[#1b3c69] px-4 py-3 text-white shadow">
-                Dashboard
+                Home
               </span>
               <span className="flex items-center gap-2 rounded-2xl px-4 py-3 text-[#4b6a90] transition hover:bg-[#eef4ff]">
                 Data Pendaftaran
@@ -128,6 +150,25 @@ export default async function DashboardPage() {
               <span className="flex items-center gap-2 rounded-2xl px-4 py-3 text-[#4b6a90] transition hover:bg-[#eef4ff]">
                 Pengumuman
               </span>
+              <Link
+                href="/"
+                className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl border border-[#1b3c69] px-4 py-3 text-sm font-semibold text-[#1b3c69] transition hover:bg-[#1b3c69] hover:text-white"
+              >
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+                Kembali ke Beranda
+              </Link>
             </nav>
           </div>
           <div className="rounded-2xl bg-[#102747] p-6 text-[#d2e3ff] shadow-lg">
@@ -179,17 +220,13 @@ export default async function DashboardPage() {
                   Periksa kembali informasi berikut dan pastikan sudah sesuai.
                 </p>
               </div>
-              <button
-                type="button"
-                className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
-                  statusKey === "pending"
-                    ? "bg-[#1b3c69] text-white shadow hover:bg-[#142c4f]"
-                    : "bg-[#bccae3] text-[#485a78] cursor-not-allowed"
-                }`}
-                disabled={statusKey !== "pending"}
-              >
-                Edit Data
-              </button>
+              {statusKey === "pending" ? (
+                <EditStudentForm initialData={editableStudentData} />
+              ) : (
+                <span className="rounded-full bg-[#bccae3] px-5 py-2 text-sm font-semibold text-[#485a78]">
+                  Data terkunci setelah diterima
+                </span>
+              )}
             </div>
 
             <div className="mt-6 overflow-hidden rounded-2xl border border-[#dfeaff]">
@@ -228,25 +265,39 @@ export default async function DashboardPage() {
                   Unggah KK, rapor, foto, dan berkas pendukung lainnya.
                 </p>
               </div>
-              <button
-                type="button"
-                className="rounded-full border border-[#1b3c69] px-5 py-2 text-sm font-semibold text-[#1b3c69] transition hover:bg-[#1b3c69] hover:text-white"
-              >
-                Unggah Berkas
-              </button>
+              {statusKey === "pending" ? (
+                <button
+                  type="button"
+                  className="rounded-full border border-[#1b3c69] px-5 py-2 text-sm font-semibold text-[#1b3c69] transition hover:bg-[#1b3c69] hover:text-white"
+                >
+                  Unggah Berkas
+                </button>
+              ) : (
+                <span className="rounded-full bg-[#eef4ff] px-5 py-2 text-sm font-semibold text-[#45628a]">
+                  Upload ditutup setelah diterima
+                </span>
+              )}
             </div>
 
-            <div className="mt-6 grid gap-6 lg:grid-cols-2">
-              <div className="rounded-2xl border border-dashed border-[#adc6f4] bg-[#f5f8ff] p-6 text-center text-sm text-[#45628a]">
-                <p className="font-semibold text-[#1a3763]">Tarik & letakkan berkas</p>
-                <p className="mt-2 text-xs">
-                  Format yang diperbolehkan: PDF, JPG, atau PNG. Maksimal 5 MB per
-                  berkas.
-                </p>
-                <div className="mt-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold text-[#1b3c69] shadow">
-                  Pilih Berkas
+            <div
+              className={`mt-6 grid gap-6 ${
+                statusKey === "pending" ? "lg:grid-cols-2" : "lg:grid-cols-1"
+              }`}
+            >
+              {statusKey === "pending" && (
+                <div className="rounded-2xl border border-dashed border-[#adc6f4] bg-[#f5f8ff] p-6 text-center text-sm text-[#45628a]">
+                  <p className="font-semibold text-[#1a3763]">
+                    Tarik & letakkan berkas
+                  </p>
+                  <p className="mt-2 text-xs">
+                    Format yang diperbolehkan: PDF, JPG, atau PNG. Maksimal 5 MB per
+                    berkas.
+                  </p>
+                  <div className="mt-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold text-[#1b3c69] shadow">
+                    Pilih Berkas
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="rounded-2xl border border-[#dfeaff] bg-white/80 p-6">
                 <p className="text-sm font-semibold text-[#1a3763]">
                   Riwayat Dokumen

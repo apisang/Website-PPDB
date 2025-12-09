@@ -26,10 +26,10 @@ export default function CalonSiswaLoginPage() {
 
           <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <LoginForm
-              title="Masuk ke Dashboard"
-              description="Gunakan email dan password yang telah terdaftar untuk mengakses Dashboard Calon Siswa."
+              title="Masuk ke Home"
+              description="Gunakan email dan password yang telah terdaftar untuk mengakses Home Calon Siswa."
               role="siswa"
-              redirectTo="/dashboard"
+              redirectTo="/dashboard/siswa"
               alternative={
                 <>
                   Belum punya akun?{" "}

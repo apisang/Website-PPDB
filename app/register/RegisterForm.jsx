@@ -1,8 +1,17 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
+const jurusanOptions = [
+  { value: "Teknik Elektro", label: "Teknik Elektro (TE)" },
+  { value: "Teknik Jaringan Komputer", label: "Teknik Jaringan Komputer (TKJ)" },
+  { value: "Animasi", label: "Animasi (ANM)" },
+  { value: "Rekayasa Perangkat Lunak", label: "Rekayasa Perangkat Lunak (RPL)" },
+  { value: "Broadcasting & Perfilman", label: "Broadcasting & Perfilman (BRF)" },
+  { value: "Desain Komunikasi Visual", label: "Desain Komunikasi Visual (DKV)" },
+];
 
 const initialForm = {
   namaLengkap: "",
@@ -15,6 +24,7 @@ const initialForm = {
   jenisKelamin: "",
   alamat: "",
   asalSekolah: "",
+  jurusanPilihan: "",
   noHp: "",
   dokumen: null,
 };
@@ -57,32 +67,13 @@ export default function RegisterForm() {
         throw new Error(error?.message || "Registrasi gagal.");
       }
 
-      const loginResponse = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: form.email,
-          password: form.password,
-          role: "siswa",
-        }),
-        credentials: "include",
+      setStatus({
+        type: "success",
+        message:
+          "Registrasi berhasil. Silakan masuk menggunakan akun yang baru dibuat.",
       });
-
-      if (!loginResponse.ok) {
-        setStatus({
-          type: "success",
-          message:
-            "Registrasi berhasil, silakan masuk menggunakan akun yang baru dibuat.",
-        });
-        router.push("/login");
-        return;
-      }
-
-      router.replace("/dashboard");
-      router.refresh();
-      if (typeof window !== "undefined") {
-        window.location.assign("/dashboard");
-      }
+      router.push("/login/calon-siswa");
+      return;
     } catch (err) {
       setStatus({
         type: "error",
@@ -257,6 +248,29 @@ export default function RegisterForm() {
 
             <div className="grid gap-2">
               <label className="text-sm font-semibold text-[#1a3763]">
+                Jurusan Pilihan
+              </label>
+              <select
+                name="jurusanPilihan"
+                className="rounded-2xl border border-[#d7e5ff] px-4 py-3 text-sm text-[#16365f] outline-none transition focus:border-[#1b3c69] focus:ring-2 focus:ring-[#c0d8ff]"
+                value={form.jurusanPilihan}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Pilih jurusan utama yang diminati</option>
+                {jurusanOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-[#7993bb]">
+                Pilihan jurusan dapat dipertimbangkan oleh panitia dalam proses seleksi.
+              </p>
+            </div>
+
+            <div className="grid gap-2">
+              <label className="text-sm font-semibold text-[#1a3763]">
                 Nomor Telepon
               </label>
               <input
@@ -315,8 +329,19 @@ export default function RegisterForm() {
             </Link>
           </p>
         </form>
+
+        <div className="text-center">
+          <Link
+            href="/ppdb"
+            className="inline-flex items-center gap-2 text-sm text-[#46658f] hover:text-[#1b3c69] transition"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Kembali ke Form PPDB
+          </Link>
+        </div>
       </div>
     </div>
   );
 }
-

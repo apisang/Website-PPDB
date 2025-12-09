@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getDb } from "@/lib/db";
+import { ensureJurusanColumn } from "@/lib/schema";
 
 export async function POST(request) {
   try {
@@ -17,8 +18,9 @@ export async function POST(request) {
     const alamat = formData.get("alamat") || null;
     const asalSekolah = formData.get("asalSekolah") || null;
     const noHp = formData.get("noHp") || null;
+    const jurusanPilihan = formData.get("jurusanPilihan") || null;
 
-    if (!namaLengkap || !email || !password || !nisn || !nik) {
+    if (!namaLengkap || !email || !password || !nisn || !nik || !jurusanPilihan) {
       return NextResponse.json(
         { message: "Data wajib masih ada yang kosong." },
         { status: 400 }
@@ -28,10 +30,12 @@ export async function POST(request) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const db = getDb();
+    await ensureJurusanColumn(db);
+
     const [result] = await db.execute(
       `INSERT INTO siswa 
-        (nama_lengkap, email, password, nisn, nik, tempat_lahir, tanggal_lahir, jenis_kelamin, alamat, asal_sekolah, no_hp) 
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        (nama_lengkap, email, password, nisn, nik, tempat_lahir, tanggal_lahir, jenis_kelamin, alamat, asal_sekolah, jurusan_pilihan, no_hp) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         namaLengkap,
         email,
@@ -43,6 +47,7 @@ export async function POST(request) {
         jenisKelamin,
         alamat,
         asalSekolah,
+        jurusanPilihan,
         noHp,
       ]
     );

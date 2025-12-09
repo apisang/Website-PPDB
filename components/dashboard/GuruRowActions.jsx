@@ -34,11 +34,16 @@ export default function GuruRowActions({ guru }) {
         payload.password = form.password;
       }
 
+      const payloadWithSource = {
+        ...payload,
+        tableSource: guru.table_source || (guru.role === "admin" ? "admin" : "guru"),
+      };
+
       const response = await fetch(`/api/admin/guru/${guru.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify(payload),
+        body: JSON.stringify(payloadWithSource),
       });
 
       if (!response.ok) {
@@ -61,12 +66,15 @@ export default function GuruRowActions({ guru }) {
   };
 
   const handleDelete = async () => {
-    if (!confirm(`Hapus guru ${guru.nama}?`)) return;
+    const tableSource = guru.table_source || (guru.role === "admin" ? "admin" : "guru");
+    const roleLabel = tableSource === "admin" ? "admin" : "guru";
+    
+    if (!confirm(`Hapus ${roleLabel} ${guru.nama}?`)) return;
     setLoading(true);
     setMessage(null);
 
     try {
-      const response = await fetch(`/api/admin/guru/${guru.id}`, {
+      const response = await fetch(`/api/admin/guru/${guru.id}?tableSource=${tableSource}`, {
         method: "DELETE",
         credentials: "include",
       });

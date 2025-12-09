@@ -23,15 +23,20 @@ export async function POST(request) {
         [email]
       );
       user = rows?.[0];
-    } else if (role === "guru" || role === "superadmin") {
+    } else if (role === "guru") {
+      // Guru login dari table guru
       const [rows] = await db.execute(
-        "SELECT id, nama AS name, username AS email, password, role FROM admin WHERE username = ?",
+        "SELECT id, nama AS name, username AS email, password FROM guru WHERE username = ?",
         [email]
       );
       user = rows?.[0];
-      if (user && user.role !== (role === "guru" ? "admin" : "superadmin")) {
-        user = null;
-      }
+    } else if (role === "admin") {
+      // Admin login dari table admin
+      const [rows] = await db.execute(
+        "SELECT id, nama AS name, username AS email, password, role FROM admin WHERE username = ? AND role = 'admin'",
+        [email]
+      );
+      user = rows?.[0];
     } else {
       return NextResponse.json({ message: "Role tidak dikenali." }, { status: 400 });
     }
@@ -57,7 +62,14 @@ export async function POST(request) {
       name: user.name,
     });
 
-    const response = NextResponse.json({ message: "Login berhasil." });
+    let redirectUrl = "/dashboard/siswa";
+    if (role === "guru") {
+      redirectUrl = "/dashboard/guru";
+    } else if (role === "admin") {
+      redirectUrl = "/dashboard/super-admin";
+    }
+
+    const response = NextResponse.json({ message: "Login berhasil.", redirectUrl });
     response.cookies.set({
       name: "ppdb_token",
       value: token,

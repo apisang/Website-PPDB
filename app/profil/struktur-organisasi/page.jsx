@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import MainNavbar from "@/components/layout/MainNavbar";
 
 export const metadata = {
   title: "Struktur Organisasi - SMK Taruna Bhakti Depok",
@@ -9,30 +11,30 @@ export default function StrukturOrganisasiPage() {
   const kepemimpinan = [
     {
       jabatan: "Kepala Sekolah",
-      nama: "Dr. Ahmad Santoso, M.Pd.",
+      nama: "Hafiz Alviansyah",
       nip: "19651215 199003 1 001",
       foto: "https://dummyimage.com/150x150/eff6ff/1b3c69.png&text=KS",
       deskripsi: "Bertanggung jawab atas pengelolaan dan pengembangan sekolah secara keseluruhan."
     },
     {
       jabatan: "Wakil Kepala Sekolah Bidang Kurikulum",
-      nama: "Dra. Siti Aminah, M.Pd.",
+      nama: "Furida Lusi Siagian, M.Si",
       nip: "19700120 199501 2 002",
-      foto: "https://dummyimage.com/150x150/eff6ff/1b3c69.png&text=WKS1",
+      foto: "/buida.png",
       deskripsi: "Mengkoordinasikan pengembangan kurikulum dan proses pembelajaran."
     },
     {
       jabatan: "Wakil Kepala Sekolah Bidang Kesiswaan",
-      nama: "Drs. Budi Setiawan, M.Pd.",
+      nama: "Ratna Wati, S.E",
       nip: "19720510 199602 1 003",
-      foto: "https://dummyimage.com/150x150/eff6ff/1b3c69.png&text=WKS2",
+      foto: "/burat.png",
       deskripsi: "Mengurus kesejahteraan siswa dan kegiatan kesiswaan."
     },
     {
       jabatan: "Wakil Kepala Sekolah Bidang Sarana dan Prasarana",
-      nama: "Ir. Maya Sari, M.T.",
+      nama: "Muchlas Edi Kiswanto, S.Pd",
       nip: "19731025 199703 2 004",
-      foto: "https://dummyimage.com/150x150/eff6ff/1b3c69.png&text=WKS3",
+      foto: "/pamuk.png",
       deskripsi: "Mengelola sarana dan prasarana pendidikan sekolah."
     }
   ];
@@ -40,28 +42,35 @@ export default function StrukturOrganisasiPage() {
   const kepalaProgram = [
     {
       program: "Teknik Jaringan Komputer",
-      kepala: "Ahmad Rahman, S.Kom.",
-      foto: "https://dummyimage.com/120x120/eff6ff/1b3c69.png&text=TKJ"
+      kepala: "Agung Setiawan, ST",
+      foto: "/pagung.jpg"
     },
     {
       program: "Rekayasa Perangkat Lunak",
-      kepala: "Siti Nurhaliza, S.Kom.",
-      foto: "https://dummyimage.com/120x120/eff6ff/1b3c69.png&text=RPL"
+      kepala: "Miranda, S.Pd",
+      foto: "/bumir.jpg"
     },
     {
       program: "Animasi",
-      kepala: "Budi Santoso, S.Sn.",
-      foto: "https://dummyimage.com/120x120/eff6ff/1b3c69.png&text=ANM"
+      kepala: "Yulfani Wulan Maulita, S.Ds",
+      foto: "/bufan.png"
     },
     {
       program: "Teknik Elektro",
-      kepala: "Dewi Lestari, S.T.",
-      foto: "https://dummyimage.com/120x120/eff6ff/1b3c69.png&text=TE"
+      kepala: "Dharma Wahyu Nurhidayati, A.Md",
+      foto: "/buTE.png"
+    },
+    {
+      program: "Broadcasting & Perfilman",
+      kepala: "Nur Syafitri S.Ikom",
+      foto: "/busya.png"
     }
+    
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#d9eeff] via-[#eaf4ff] to-[#caddff] text-[#16365f]">
+      <MainNavbar activePath="/profil/struktur-organisasi" />
       {/* Back Button */}
       <div className="mx-auto max-w-6xl px-6 py-4">
         <Link
@@ -147,7 +156,7 @@ export default function StrukturOrganisasiPage() {
 
           {/* Organigram */}
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1a3763] mb-8 text-center">Organigram Sekolah</h2>
+            <h2 className="text-2xl font-bold text-[#1a3763] mb-8 text-center">Struktur Sekolah</h2>
             <div className="rounded-2xl bg-gradient-to-br from-[#1b3c69] to-[#0f305c] p-8 text-white">
               <div className="text-center mb-8">
                 <h3 className="text-xl font-bold mb-2">YAYASAN SETYA BHAKTI</h3>

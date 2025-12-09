@@ -36,10 +36,13 @@ export default function LoginForm({
         throw new Error(error?.message || "Gagal masuk.");
       }
 
-      router.replace(redirectTo);
+      const data = await response.json();
+      const finalRedirect = data?.redirectUrl || redirectTo;
+      
+      router.replace(finalRedirect);
       router.refresh();
       if (typeof window !== "undefined") {
-        window.location.assign(redirectTo);
+        window.location.assign(finalRedirect);
       }
     } catch (error) {
       setStatus({
@@ -64,13 +67,13 @@ export default function LoginForm({
             <svg className="h-4 w-4 text-[#1b3c69]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
             </svg>
-            {role === "guru" || role === "superadmin" ? "Username" : "Email"}
+            {role === "guru" || role === "admin" ? "Username" : "Email"}
           </label>
           <input
-            type={role === "guru" || role === "superadmin" ? "text" : "email"}
+            type={role === "guru" || role === "admin" ? "text" : "email"}
             name="email"
             placeholder={
-              role === "guru" || role === "superadmin"
+              role === "guru" || role === "admin"
                 ? "Masukkan username"
                 : "nama@email.com"
             }
@@ -111,7 +114,7 @@ export default function LoginForm({
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
             </svg>
-            Masuk ke Dashboard
+            Masuk ke Home
           </div>
         )}
       </button>
